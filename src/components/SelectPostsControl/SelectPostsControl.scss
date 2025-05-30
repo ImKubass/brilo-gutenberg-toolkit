@@ -1,0 +1,19 @@
+.select-posts-control__content {
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+}
+
+.select-posts-control__select-all {
+  font-weight: 700;
+  margin-bottom: 8px !important;
+}
+
+.select-posts-control__checkbox {
+  margin-bottom: 8px !important;
+}
+
+.select-posts-control__checkbox-wrapper {
+  max-height: 240px;
+  overflow: auto;
+  padding: 4px;
+}

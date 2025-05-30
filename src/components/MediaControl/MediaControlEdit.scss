@@ -1,0 +1,54 @@
+.media-control-edit {
+  position: relative;
+  max-width: 100%;
+  container-type: inline-size;
+  box-shadow: 0 0 0 1px lightgrey;
+
+  img {
+    width: revert-layer;
+    display: block;
+    max-width: 100%;
+  }
+
+  .media-control-edit__remove.components-button {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(white, 0.95);
+    padding: 8px!important;
+    height: 40px;
+    text-align: center;
+    text-transform: none;
+  }
+}
+
+.media-control-edit__add {
+  cursor: pointer;
+  height: 100%;
+}
+
+.media-control-edit__placeholder {
+  width: 100%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+  aspect-ratio: var(--aspect-ratio, 1 / 1);
+  color: black;
+
+  @container (min-width: 164px) {
+    font-size: 20px;
+    gap: 8px;
+
+    svg {
+      width: 56px;
+      height: 56px;
+    }
+  }
+}
