@@ -1,6 +1,6 @@
 {
   "name": "@brilo/gutenberg-toolkit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Toolkit for developing WordPress Gutenberg blocks.",
   "main": "build/index.js",
   "repository": {
@@ -14,14 +14,6 @@
     "lint:js": "wp-scripts lint-js",
     "start": "wp-scripts start",
     "packages-update": "wp-scripts packages-update"
-  },
-  "peerDependencies": {
-    "@wordpress/block-editor": "^14.15.0",
-    "@wordpress/blocks": "^14.9.0",
-    "@wordpress/components": "^29.10.0",
-    "@wordpress/data": "^10.24.0",
-    "@wordpress/icons": "^10.24.0",
-    "@wordpress/i18n": "^5.20.0"
   },
   "devDependencies": {
     "@types/react": "18.3.1",
