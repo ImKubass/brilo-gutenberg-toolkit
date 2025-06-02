@@ -6,6 +6,7 @@ import {default as ContentWrapper} from "@components/ContentControl/ContentContr
 
 import {default as HeaderControl} from "@components/HeaderControl/HeaderControl"
 import {HEADING_STYLES, HEADING_LEVELS, VARIANTS} from "@components/HeaderControl/types"
+import type {HeadingLevel, HeadingStyle, Heading, Variant} from "@components/HeaderControl/types"
 
 import {default as HeadingLevelControl} from "@components/HeadingLevelControl/HeadingLevelControl"
 
@@ -40,4 +41,8 @@ export {
   PriceControl,
   PriceControlEdit,
   SelectPostsControl,
+  HeadingLevel,
+  HeadingStyle,
+  Heading,
+  Variant,
 }

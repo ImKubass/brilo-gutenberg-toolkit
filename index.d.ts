@@ -3,6 +3,7 @@ import ButtonGroupControl from "./src/components/ButtonGroupControl/ButtonGroupC
 import ContentWrapper from "./src/components/ContentControl/ContentControl"
 import HeaderControl from "./src/components/HeaderControl/HeaderControl"
 import {HEADING_STYLES, HEADING_LEVELS, VARIANTS} from "./src/components/HeaderControl/types"
+import type {HeadingLevel, HeadingStyle, Heading, Variant} from "./src/components/HeaderControl/types"
 import HeadingLevelControl from "./src/components/HeadingLevelControl/HeadingLevelControl"
 import MediaControl from "./src/components/MediaControl/MediaControl"
 import MediaControlEdit from "./src/components/MediaControl/MediaControlEdit"
@@ -30,4 +31,8 @@ export {
   PriceControl,
   PriceControlEdit,
   SelectPostsControl,
+  HeadingLevel,
+  HeadingStyle,
+  Heading,
+  Variant,
 }
