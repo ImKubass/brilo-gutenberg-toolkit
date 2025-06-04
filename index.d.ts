@@ -6,6 +6,9 @@ import {HEADING_STYLES, HEADING_LEVELS, VARIANTS} from "./src/components/HeaderC
 import type {HeadingLevel, HeadingStyle, Heading, Variant} from "./src/components/HeaderControl/types"
 import HeadingLevelControl from "./src/components/HeadingLevelControl/HeadingLevelControl"
 import MediaControl from "./src/components/MediaControl/MediaControl"
+import {imageDefault} from "./src/components/MediaControl/types"
+import type {Media} from "./src/components/MediaControl/types"
+
 import MediaControlEdit from "./src/components/MediaControl/MediaControlEdit"
 import PriceControl from "./src/components/PriceControl/PriceControl"
 import PriceControlEdit from "./src/components/PriceControl/PriceControlEdit"
@@ -35,4 +38,6 @@ export {
   HeadingStyle,
   Heading,
   Variant,
+  Media,
+  imageDefault,
 }
