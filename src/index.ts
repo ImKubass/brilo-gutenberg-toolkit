@@ -1,5 +1,6 @@
 import {default as ButtonControl} from "@components/ButtonControl/ButtonControl"
 import type {Button} from "@components/ButtonControl/types"
+import {buttonDefault} from "@components/ButtonControl/types"
 
 import {default as ButtonGroupControl} from "@components/ButtonGroupControl/ButtonGroupControl"
 import {buttonGroupDefault} from "@components/ButtonGroupControl/types"
@@ -64,4 +65,5 @@ export {
   Image,
   HeadingHigherLevel,
   HeadingLevelControlProps,
+  buttonDefault,
 }
