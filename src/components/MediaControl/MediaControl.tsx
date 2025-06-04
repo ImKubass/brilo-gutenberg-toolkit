@@ -3,6 +3,7 @@ import {__} from "@wordpress/i18n"
 import {MediaUpload, MediaUploadCheck} from "@wordpress/block-editor"
 import {Button, ResponsiveWrapper} from "@wordpress/components"
 import {Image, Media} from "@components/MediaControl/types"
+
 import "./MediaControl.scss"
 
 export interface MediaControlProps {

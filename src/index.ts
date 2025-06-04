@@ -9,8 +9,12 @@ import {HEADING_STYLES, HEADING_LEVELS, VARIANTS} from "@components/HeaderContro
 import type {HeadingLevel, HeadingStyle, Heading, Variant} from "@components/HeaderControl/types"
 
 import {default as HeadingLevelControl} from "@components/HeadingLevelControl/HeadingLevelControl"
+// import type {HeadingLevel, HeadingHigherLevel, HeadingLevelControlProps} from "@components/HeadingLevelControl/types"
+// import {HEADING_LEVELS, HEADING_HIGHER_LEVELS, headingLevelDefault} from "@components/HeadingLevelControl/types"
 
 import {default as MediaControl} from "@components/MediaControl/MediaControl"
+import {imageDefault} from "@components/MediaControl/types"
+import type {Media} from "@components/MediaControl/types"
 
 import {default as MediaControlEdit} from "@components/MediaControl/MediaControlEdit"
 
@@ -45,4 +49,6 @@ export {
   HeadingStyle,
   Heading,
   Variant,
+  Media,
+  imageDefault,
 }

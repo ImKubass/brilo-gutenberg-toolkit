@@ -11,7 +11,6 @@ module.exports = {
     ...defaultConfig.resolve,
     alias: {
       '@components': path.resolve(__dirname, 'src/components/'),
-      '@blocks': path.resolve(__dirname, 'src/blocks/'),
       '@hooks': path.resolve(__dirname, 'src/hooks/'),
     },
   },
