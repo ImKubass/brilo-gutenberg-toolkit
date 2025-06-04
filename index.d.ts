@@ -1,5 +1,7 @@
 import ButtonControl from "./src/components/ButtonControl/ButtonControl"
 import ButtonGroupControl from "./src/components/ButtonGroupControl/ButtonGroupControl"
+import {buttonGroupDefault} from "./src/components/ButtonGroupControl/types"
+
 import ContentWrapper from "./src/components/ContentControl/ContentControl"
 
 import HeaderControl from "./src/components/HeaderControl/HeaderControl"
@@ -11,8 +13,10 @@ import {imageDefault} from "./src/components/MediaControl/types"
 import type {Media} from "./src/components/MediaControl/types"
 
 import MediaControlEdit from "./src/components/MediaControl/MediaControlEdit"
+
 import PriceControl from "./src/components/PriceControl/PriceControl"
 import PriceControlEdit from "./src/components/PriceControl/PriceControlEdit"
+import {priceDefault} from "./src/components/PriceControl/types"
 
 import SelectPostsControl from "./src/components/SelectPostsControl/SelectPostsControl"
 
@@ -42,6 +46,8 @@ export {
   Variant,
   Media,
   imageDefault,
+  priceDefault,
+  buttonGroupDefault,
 }
 
 export * from "./src/HeadingLevelControl"

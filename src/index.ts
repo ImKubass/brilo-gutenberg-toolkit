@@ -1,6 +1,7 @@
 import {default as ButtonControl} from "@components/ButtonControl/ButtonControl"
 
 import {default as ButtonGroupControl} from "@components/ButtonGroupControl/ButtonGroupControl"
+import {buttonGroupDefault} from "@components/ButtonGroupControl/types"
 
 import {default as ContentWrapper} from "@components/ContentControl/ContentControl"
 
@@ -15,6 +16,7 @@ import type {Media} from "@components/MediaControl/types"
 import {default as MediaControlEdit} from "@components/MediaControl/MediaControlEdit"
 
 import {default as PriceControl} from "@components/PriceControl/PriceControl"
+import {priceDefault} from "@components/PriceControl/types"
 
 import {default as PriceControlEdit} from "@components/PriceControl/PriceControlEdit"
 
@@ -46,6 +48,8 @@ export {
   Variant,
   Media,
   imageDefault,
+  priceDefault,
+  buttonGroupDefault,
 }
 
 export * from "./HeadingLevelControl"
