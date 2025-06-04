@@ -6,9 +6,9 @@ import {buttonGroupDefault} from "./src/components/ButtonGroupControl/types"
 
 import ContentWrapper from "./src/components/ContentControl/ContentControl"
 
-import HeaderControl from "./src/components/HeaderControl/HeaderControl"
-import {HEADING_STYLES, HEADING_LEVELS, VARIANTS} from "./src/components/HeaderControl/types"
-import type {HeadingLevel, HeadingStyle, Heading, Variant} from "./src/components/HeaderControl/types"
+import {default as HeaderControl} from "./src/components/HeaderControl/HeaderControl"
+import {HEADING_STYLES, HEADING_LEVELS as HEADER_HEADING_LEVELS, VARIANTS} from "./src/components/HeaderControl/types"
+import type {HeadingLevel as HeaderHeadingLevel, HeadingStyle, Heading, Variant} from "./src/components/HeaderControl/types"
 
 import MediaControl from "./src/components/MediaControl/MediaControl"
 import {imageDefault} from "./src/components/MediaControl/types"
@@ -26,6 +26,10 @@ import getMediaHandlers from "./src/hooks/getMediaHandlers"
 import getBlockContentSerialized from "./src/hooks/getBlockContentSerialized"
 import getChildBlockAttributes from "./src/hooks/getChildBlockAttributes"
 
+import {default as HeadingLevelControl} from "./src/components/HeadingLevelControl/HeadingLevelControl"
+import {HEADING_LEVELS, HEADING_HIGHER_LEVELS, headingLevelDefault} from "./src/components/HeadingLevelControl/types"
+import type {HeadingLevel, HeadingHigherLevel, HeadingLevelControlProps} from "./src/components/HeadingLevelControl/types"
+
 export {
   getMediaHandlers,
   getBlockContentSerialized,
@@ -34,8 +38,13 @@ export {
   ButtonGroupControl,
   ContentWrapper,
   HeaderControl,
+  HEADER_HEADING_LEVELS,
+  HeaderHeadingLevel,
+  HeadingLevelControl,
   HEADING_STYLES,
   HEADING_LEVELS,
+  headingLevelDefault,
+  HEADING_HIGHER_LEVELS,
   VARIANTS,
   MediaControl,
   MediaControlEdit,
@@ -52,6 +61,6 @@ export {
   buttonGroupDefault,
   Button,
   Image,
+  HeadingHigherLevel,
+  HeadingLevelControlProps,
 }
-
-export * from "./src/HeadingLevelControl"
