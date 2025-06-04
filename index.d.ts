@@ -9,7 +9,7 @@ import ContentWrapper from "./src/components/ContentControl/ContentControl"
 
 import {default as HeaderControl} from "./src/components/HeaderControl/HeaderControl"
 import {default as HeaderControlEdit} from "./src/components/HeaderControl/HeaderControlEdit"
-import {HEADING_STYLES, HEADING_LEVELS as HEADER_HEADING_LEVELS, VARIANTS, headerDefault} from "./src/components/HeaderControl/types"
+import {HEADING_STYLES, HEADING_LEVELS as HEADER_HEADING_LEVELS, VARIANTS, headerDefault, Header} from "./src/components/HeaderControl/types"
 import type {HeadingLevel as HeaderHeadingLevel, HeadingStyle, Heading, Variant} from "./src/components/HeaderControl/types"
 
 import MediaControl from "./src/components/MediaControl/MediaControl"
@@ -39,6 +39,7 @@ export {
   ButtonControl,
   ButtonGroupControl,
   ContentWrapper,
+  Header,
   HeaderControl,
   headerDefault,
   HeaderControlEdit,

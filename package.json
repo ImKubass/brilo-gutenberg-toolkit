@@ -1,6 +1,6 @@
 {
   "name": "@brilo/gutenberg-toolkit",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Toolkit for developing WordPress Gutenberg blocks.",
   "main": "build/index.js",
   "repository": {
