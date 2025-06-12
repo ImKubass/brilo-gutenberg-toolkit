@@ -9,8 +9,8 @@ import {default as ContentWrapper} from "@components/ContentControl/ContentContr
 
 import {default as HeaderControl} from "@components/HeaderControl/HeaderControl"
 import {default as HeaderControlEdit} from "@components/HeaderControl/HeaderControlEdit"
-import {HEADING_STYLES, HEADING_LEVELS as HEADER_HEADING_LEVELS, VARIANTS, headerDefault, Header} from "@components/HeaderControl/types"
-import type {HeadingLevel as HeaderHeadingLevel, HeadingStyle, Heading, Variant} from "@components/HeaderControl/types"
+import {HEADING_STYLES, HEADING_LEVELS as HEADER_HEADING_LEVELS, VARIANTS, headerDefault} from "@components/HeaderControl/types"
+import type {HeadingLevel as HeaderHeadingLevel, HeadingStyle, Heading, Variant, Header} from "@components/HeaderControl/types"
 
 import {default as MediaControl} from "@components/MediaControl/MediaControl"
 import {imageDefault} from "@components/MediaControl/types"
