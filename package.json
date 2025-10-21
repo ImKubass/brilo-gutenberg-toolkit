@@ -1,12 +1,12 @@
 {
   "name": "@brilo/gutenberg-toolkit",
-  "version": "0.2.9",
-  "description": "Toolkit for developing WordPress Gutenberg blocks.",
-  "main": "build/index.js",
+  "version": "0.3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/ImKubass/brilo-gutenberg-toolkit.git"
   },
+  "main": "build/index.js",
+  "description": "Toolkit for developing WordPress Gutenberg blocks.",
   "scripts": {
     "build": "wp-scripts build",
     "format": "wp-scripts format",
@@ -17,10 +17,15 @@
   },
   "devDependencies": {
     "@types/react": "18.3.1",
-    "@types/wordpress__block-editor": "^11.5.16",
-    "@types/wordpress__blocks": "^12.5.17",
-    "@wordpress/scripts": "^30.18.0",
+    "@types/wordpress__block-editor": "^14.21.0",
+    "@types/wordpress__blocks": "^12.5.18",
+    "@wordpress/scripts": "^30.26.0",
     "clsx": "^2.1.1",
     "react": "^18.3.1"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@wordpress/api-fetch": "^7.33.0"
   }
 }
