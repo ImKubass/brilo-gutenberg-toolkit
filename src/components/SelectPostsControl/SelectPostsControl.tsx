@@ -91,14 +91,24 @@ const SelectPostsControl: React.FC<SelectPostsControlProps> = ({selectedItems, o
     const params = new URLSearchParams({_fields: "id,title"})
     if (search) params.set("search", search)
     if (perPage) params.set("per_page", String(perPage))
-    if (include?.length) params.set("include", include.join(","))
+    if (include?.length) {
+      params.set("include", include.join(","))
+      if (!perPage) params.set("per_page", String(include.length))
+    }
 
     const path = `/wp/v2/${endpoint}?${params.toString()}`
 
     try {
       const data = await apiFetch<Post[]>({path})
-      if (include?.length) setSelectedPosts(data)
-      else setPosts(data)
+      if (Array.isArray(include)) {
+        const dataMap = new Map(data.map((p) => [p.id, p]))
+        const orderedData = include
+          .map((id) => dataMap.get(id))
+          .filter((p): p is Post => p !== undefined)
+        setSelectedPosts(orderedData)
+      } else {
+        setPosts(data)
+      }
     } catch (e) {
       console.error("Failed to fetch posts", e)
       setPosts([])
@@ -110,7 +120,7 @@ const SelectPostsControl: React.FC<SelectPostsControlProps> = ({selectedItems, o
   useEffect(() => {
     const timeout = setTimeout(async () => {
       await fetchPosts({search: searchQuery, perPage: perPageLimit})
-      if (!searchQuery) fetchPosts({include: selectedItems})
+      if (!searchQuery && selectedItems.length > 0) fetchPosts({include: selectedItems})
     }, 400)
     return () => clearTimeout(timeout)
   }, [searchQuery])
