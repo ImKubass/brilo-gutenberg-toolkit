@@ -85,7 +85,7 @@ const SelectPostsControl: React.FC<SelectPostsControlProps> = ({selectedItems, o
 
   const endpoint = getRestBase(postType)
 
-  const fetchPosts = async ({search, perPage, include}: FetchPostsOptions) => {
+  const fetchPosts = async ({search, perPage, include}: FetchPostsOptions, signal?: AbortSignal) => {
     setLoading(true)
 
     const params = new URLSearchParams({_fields: "id,title"})
@@ -99,30 +99,34 @@ const SelectPostsControl: React.FC<SelectPostsControlProps> = ({selectedItems, o
     const path = `/wp/v2/${endpoint}?${params.toString()}`
 
     try {
-      const data = await apiFetch<Post[]>({path})
+      const data = await apiFetch<Post[]>({path, signal})
+      if (signal?.aborted) return
       if (Array.isArray(include)) {
         const dataMap = new Map(data.map((p) => [p.id, p]))
-        const orderedData = include
-          .map((id) => dataMap.get(id))
-          .filter((p): p is Post => p !== undefined)
+        const orderedData = include.map((id) => dataMap.get(id)).filter((p): p is Post => p !== undefined)
         setSelectedPosts(orderedData)
       } else {
         setPosts(data)
       }
     } catch (e) {
+      if (e instanceof DOMException && e.name === "AbortError") return
       console.error("Failed to fetch posts", e)
       setPosts([])
     } finally {
-      setLoading(false)
+      if (!signal?.aborted) setLoading(false)
     }
   }
 
   useEffect(() => {
+    const controller = new AbortController()
     const timeout = setTimeout(async () => {
-      await fetchPosts({search: searchQuery, perPage: perPageLimit})
-      if (!searchQuery && selectedItems.length > 0) fetchPosts({include: selectedItems})
+      await fetchPosts({search: searchQuery, perPage: perPageLimit}, controller.signal)
+      if (!searchQuery && selectedItems.length > 0) fetchPosts({include: selectedItems}, controller.signal)
     }, 400)
-    return () => clearTimeout(timeout)
+    return () => {
+      clearTimeout(timeout)
+      controller.abort()
+    }
   }, [searchQuery])
 
   const handleCheckboxChange = (post: Post, isChecked: boolean) => {
@@ -161,6 +165,7 @@ const SelectPostsControl: React.FC<SelectPostsControlProps> = ({selectedItems, o
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
+            onDragStart={({active}) => setActiveId(active.id as number)}
             onDragOver={({active, over}) => {
               if (over && active.id !== over.id) {
                 setSelectedPosts((prev) => {
