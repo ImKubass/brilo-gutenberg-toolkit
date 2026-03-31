@@ -3,7 +3,7 @@
   "version": "0.3.3",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ImKubass/brilo-gutenberg-toolkit.git"
+    "url": "git+https://github.com/ImKubass/brilo-gutenberg-toolkit.git"
   },
   "main": "build/index.js",
   "description": "Toolkit for developing WordPress Gutenberg blocks.",
