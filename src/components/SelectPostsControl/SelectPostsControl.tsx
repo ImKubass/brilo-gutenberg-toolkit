@@ -1,11 +1,11 @@
-import React, {useCallback, useEffect, useState, useRef} from "react"
+import React, {useEffect, useState, useRef} from "react"
 import {CheckboxControl, PanelBody, TextControl, Spinner} from "@wordpress/components"
 import apiFetch from "@wordpress/api-fetch"
 import {__} from "@wordpress/i18n"
 import {Icon, cancelCircleFilled, chevronDown, chevronUp} from "@wordpress/icons"
 import "./SelectPostsControl.scss"
 
-import {DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragOverlay, DragEndEvent} from "@dnd-kit/core"
+import {DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragOverlay} from "@dnd-kit/core"
 import {arrayMove, SortableContext, useSortable, verticalListSortingStrategy} from "@dnd-kit/sortable"
 import {CSS} from "@dnd-kit/utilities"
 
@@ -35,11 +35,6 @@ const getRestBase = (postType: string) => {
   if (postType === "post") return "posts"
   if (postType === "page") return "pages"
   return postType
-}
-
-const areItemIdsEqual = (first: number[], second: number[]) => {
-  if (first.length !== second.length) return false
-  return first.every((itemId, index) => itemId === second[index])
 }
 
 interface SortableItemProps {
@@ -90,83 +85,59 @@ const SelectPostsControl: React.FC<SelectPostsControlProps> = ({selectedItems, o
 
   const endpoint = getRestBase(postType)
 
-  const fetchPosts = useCallback(
-    async ({search, perPage, include}: FetchPostsOptions, signal?: AbortSignal) => {
-      setLoading(true)
+  const fetchPosts = async ({search, perPage, include}: FetchPostsOptions, signal?: AbortSignal) => {
+    setLoading(true)
 
-      const params = new URLSearchParams({_fields: "id,title"})
-      if (search) params.set("search", search)
-      if (perPage) params.set("per_page", String(perPage))
-      if (include?.length) {
-        params.set("include", include.join(","))
-        if (!perPage) params.set("per_page", String(include.length))
+    const params = new URLSearchParams({_fields: "id,title"})
+    if (search) params.set("search", search)
+    if (perPage) params.set("per_page", String(perPage))
+    if (include?.length) {
+      params.set("include", include.join(","))
+      if (!perPage) params.set("per_page", String(include.length))
+    }
+
+    const path = `/wp/v2/${endpoint}?${params.toString()}`
+
+    try {
+      const data = await apiFetch<Post[]>({path, signal})
+      if (signal?.aborted) return
+      if (Array.isArray(include)) {
+        const dataMap = new Map(data.map((p) => [p.id, p]))
+        const orderedData = include.map((id) => dataMap.get(id)).filter((p): p is Post => p !== undefined)
+        setSelectedPosts(orderedData)
+      } else {
+        setPosts(data)
       }
-
-      const path = `/wp/v2/${endpoint}?${params.toString()}`
-
-      try {
-        const data = await apiFetch<Post[]>({path, signal})
-        if (signal?.aborted) return
-        if (Array.isArray(include)) {
-          const dataMap = new Map(data.map((p) => [p.id, p]))
-          const orderedData = include.map((id) => dataMap.get(id)).filter((p): p is Post => p !== undefined)
-          setSelectedPosts(orderedData)
-        } else {
-          setPosts(data)
-        }
-      } catch (e) {
-        if (e instanceof DOMException && e.name === "AbortError") return
-        console.error("Failed to fetch posts", e)
-        setPosts([])
-      } finally {
-        if (!signal?.aborted) setLoading(false)
-      }
-    },
-    [endpoint],
-  )
+    } catch (e) {
+      if (e instanceof DOMException && e.name === "AbortError") return
+      console.error("Failed to fetch posts", e)
+      setPosts([])
+    } finally {
+      if (!signal?.aborted) setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    if (!open) return
-
     const controller = new AbortController()
-    const timeout = setTimeout(() => {
-      fetchPosts({search: searchQuery, perPage: perPageLimit}, controller.signal)
+    const timeout = setTimeout(async () => {
+      await fetchPosts({search: searchQuery, perPage: perPageLimit}, controller.signal)
+      if (!searchQuery && selectedItems.length > 0) fetchPosts({include: selectedItems}, controller.signal)
     }, 400)
-
     return () => {
       clearTimeout(timeout)
       controller.abort()
     }
-  }, [fetchPosts, open, perPageLimit, searchQuery])
-
-  useEffect(() => {
-    if (searchQuery || selectedItems.length === 0) {
-      if (selectedItems.length === 0) {
-        setSelectedPosts((currentSelectedPosts) => (currentSelectedPosts.length > 0 ? [] : currentSelectedPosts))
-      }
-      return
-    }
-
-    const controller = new AbortController()
-    fetchPosts({include: selectedItems}, controller.signal)
-
-    return () => {
-      controller.abort()
-    }
-  }, [fetchPosts, searchQuery, selectedItems])
+  }, [searchQuery])
 
   const handleCheckboxChange = (post: Post, isChecked: boolean) => {
-    if (isChecked && limit > 0 && selectedPosts.length >= limit) return
+    if (isChecked && limit > 0 && selectedItems.length >= limit) return
     if (isChecked) setSelectedPosts((prev) => [...prev, post])
     else setSelectedPosts((prev) => prev.filter((p) => p.id !== post.id))
   }
 
   useEffect(() => {
-    const nextSelectedItems = selectedPosts.map((p) => p.id)
-    if (!areItemIdsEqual(nextSelectedItems, selectedItems)) {
-      onChange(nextSelectedItems)
-    }
-  }, [onChange, selectedItems, selectedPosts])
+    onChange(selectedPosts.map((p) => p.id))
+  }, [selectedPosts])
 
   const selectedIds = new Set(selectedPosts.map((p) => p.id))
   const mergedPosts = searchQuery
@@ -187,21 +158,6 @@ const SelectPostsControl: React.FC<SelectPostsControlProps> = ({selectedItems, o
   const sensors = useSensors(useSensor(PointerSensor))
   const activePost = activeId ? selectedPosts.find((p) => p.id === activeId) || null : null
 
-  const handleDragEnd = ({active, over}: DragEndEvent) => {
-    setActiveId(null)
-
-    if (!over || active.id === over.id) return
-
-    setSelectedPosts((prev) => {
-      const oldIndex = prev.findIndex((post) => post.id === active.id)
-      const newIndex = prev.findIndex((post) => post.id === over.id)
-
-      if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex) return prev
-
-      return arrayMove(prev, oldIndex, newIndex)
-    })
-  }
-
   return (
     <PanelBody title={label} className="select-posts-control">
       <div ref={ref} className="select-posts-control__selected" onClick={() => setOpen(!open)}>
@@ -210,7 +166,18 @@ const SelectPostsControl: React.FC<SelectPostsControlProps> = ({selectedItems, o
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragStart={({active}) => setActiveId(active.id as number)}
-            onDragEnd={handleDragEnd}
+            onDragOver={({active, over}) => {
+              if (over && active.id !== over.id) {
+                setSelectedPosts((prev) => {
+                  const oldIndex = prev.findIndex((p) => p.id === active.id)
+                  const newIndex = prev.findIndex((p) => p.id === over.id)
+                  return arrayMove(prev, oldIndex, newIndex)
+                })
+              }
+            }}
+            onDragEnd={() => {
+              setActiveId(null)
+            }}
           >
             <SortableContext items={selectedPosts.map((p) => p.id)} strategy={verticalListSortingStrategy}>
               {selectedPosts.map((selectedPost) => (
@@ -262,12 +229,12 @@ const SelectPostsControl: React.FC<SelectPostsControlProps> = ({selectedItems, o
                 label={post.title.rendered}
                 checked={selectedIds.has(post.id)}
                 onChange={(checked) => handleCheckboxChange(post, checked)}
-                disabled={!selectedIds.has(post.id) && limit > 0 && selectedPosts.length >= limit}
+                disabled={!selectedIds.has(post.id) && limit > 0 && selectedItems.length >= limit}
               />
             </label>
           ))}
           {!posts.length && searchQuery && <div>{`${__("Nic nenalezeno pod pojmem:", "brilo-blocks")} ${searchQuery}`}</div>}
-          {limit > 0 && <div>{`${__("Počet položek k vybrání:", "brilo-blocks")} ${limit - selectedPosts.length}`}</div>}
+          {limit > 0 && <div>{`${__("Počet položek k vybrání:", "brilo-blocks")} ${limit - selectedItems.length}`}</div>}
         </div>
       </div>
     </PanelBody>
