@@ -55,7 +55,7 @@ const HeaderControlEdit: React.FC<HeaderControlProps> = ({header, onChange, vari
             identifier="perex"
             tagName="p"
             value={header.perex}
-            allowedFormats={["core/bold"]}
+            allowedFormats={["core/bold", "core/link"]}
             onChange={(value: string) =>
               onChange({
                 ...header,

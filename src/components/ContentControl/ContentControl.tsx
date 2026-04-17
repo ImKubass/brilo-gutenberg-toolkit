@@ -5,16 +5,14 @@ import "./ContentControl.scss"
 
 interface ContentWrapperProps {
   allowedBlocks: string[]
-  onChange?: (value: string) => void
 }
 
-const ContentWrapper: React.FC<ContentWrapperProps> = ({allowedBlocks, onChange}) => {
+const ContentWrapper: React.FC<ContentWrapperProps> = ({allowedBlocks}) => {
   return (
     <div className="content-wrapper">
       <InnerBlocks
-        onChange={onChange}
         allowedBlocks={allowedBlocks}
-        defaultBlock={[allowedBlocks[0], {placeholder: __("Přidejte obsah", "brilo-blocks")}]}
+        template={allowedBlocks.length > 0 ? [[allowedBlocks[0], {placeholder: __("Přidejte obsah", "brilo-blocks")}]] : undefined}
       />
     </div>
   )
