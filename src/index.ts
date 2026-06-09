@@ -25,6 +25,8 @@ import {default as PriceControlEdit} from "@components/PriceControl/PriceControl
 
 import {default as SelectPostsControl} from "@components/SelectPostsControl/SelectPostsControl"
 
+import {default as SelectTermsControl} from "@components/SelectTermsControl/SelectTermsControl"
+
 import {default as getMediaHandlers} from "@hooks/getMediaHandlers"
 import {default as getBlockContentSerialized} from "@hooks/getBlockContentSerialized"
 import {default as getChildBlockAttributes} from "@hooks/getChildBlockAttributes"
@@ -56,6 +58,7 @@ export {
   PriceControl,
   PriceControlEdit,
   SelectPostsControl,
+  SelectTermsControl,
   HeadingLevel,
   HeadingStyle,
   Heading,

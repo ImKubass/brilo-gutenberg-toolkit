@@ -23,6 +23,7 @@ import PriceControlEdit from "./src/components/PriceControl/PriceControlEdit"
 import {priceDefault} from "./src/components/PriceControl/types"
 
 import SelectPostsControl from "./src/components/SelectPostsControl/SelectPostsControl"
+import SelectTermsControl from "./src/components/SelectTermsControl/SelectTermsControl"
 
 import getMediaHandlers from "./src/hooks/getMediaHandlers"
 import getBlockContentSerialized from "./src/hooks/getBlockContentSerialized"
@@ -56,6 +57,7 @@ export {
   PriceControl,
   PriceControlEdit,
   SelectPostsControl,
+  SelectTermsControl,
   HeadingLevel,
   HeadingStyle,
   Heading,
