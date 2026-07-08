@@ -3,7 +3,6 @@ import {CheckboxControl, PanelBody, TextControl, Spinner} from "@wordpress/compo
 import apiFetch from "@wordpress/api-fetch"
 import {__} from "@wordpress/i18n"
 import {Icon, cancelCircleFilled, chevronDown, chevronUp} from "@wordpress/icons"
-import {useInstanceId} from "@wordpress/compose"
 import "./SelectTermsControl.scss"
 
 interface SelectTermsControlProps {
@@ -12,6 +11,7 @@ interface SelectTermsControlProps {
   taxonomy: string
   label: string
   limit?: number
+  clientId: string
 }
 
 type Term = {
@@ -19,8 +19,7 @@ type Term = {
   name: string
 }
 
-const SelectTermsControl: React.FC<SelectTermsControlProps> = ({selectedItems, onChange, taxonomy, label, limit = -1}) => {
-  const instanceId = useInstanceId(SelectTermsControl)
+const SelectTermsControl: React.FC<SelectTermsControlProps> = ({selectedItems, onChange, taxonomy, label, limit = -1, clientId}) => {
   const [terms, setTerms] = useState<Term[]>([])
   const [selectedTerms, setSelectedTerms] = useState<Term[]>([])
   const [searchQuery, setSearchQuery] = useState("")
@@ -156,12 +155,12 @@ const SelectTermsControl: React.FC<SelectTermsControlProps> = ({selectedItems, o
           {terms.map((term) => (
             <label
               className="select-terms-control__checkbox-label p-3 cursor-pointer"
-              htmlFor={`select-terms-control-${instanceId}-term-${term.id}`}
+              htmlFor={`select-terms-control-${clientId}-term-${term.id}`}
               key={term.id}
             >
               <CheckboxControl
                 className="select-terms-control__checkbox"
-                id={`select-terms-control-${instanceId}-term-${term.id}`}
+                id={`select-terms-control-${clientId}-term-${term.id}`}
                 label={term.name}
                 checked={selectedIds.has(term.id)}
                 onChange={(checked) => handleChange(term, checked)}

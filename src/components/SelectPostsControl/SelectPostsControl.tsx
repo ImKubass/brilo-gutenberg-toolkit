@@ -3,7 +3,6 @@ import {CheckboxControl, PanelBody, TextControl, Spinner} from "@wordpress/compo
 import apiFetch from "@wordpress/api-fetch"
 import {__} from "@wordpress/i18n"
 import {Icon, cancelCircleFilled, chevronDown, chevronUp} from "@wordpress/icons"
-import {useInstanceId} from "@wordpress/compose"
 import "./SelectPostsControl.scss"
 
 import {DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragOverlay} from "@dnd-kit/core"
@@ -17,6 +16,7 @@ interface SelectPostsControlProps {
   label: string
   limit?: number
   perPageLimit?: number
+  clientId: string
 }
 
 type Post = {
@@ -75,8 +75,7 @@ const SortableItem: React.FC<SortableItemProps> = ({post, onRemove}) => {
   )
 }
 
-const SelectPostsControl: React.FC<SelectPostsControlProps> = ({selectedItems, onChange, postType, label, limit = -1, perPageLimit = 20}) => {
-  const instanceId = useInstanceId(SelectPostsControl)
+const SelectPostsControl: React.FC<SelectPostsControlProps> = ({selectedItems, onChange, postType, label, limit = -1, perPageLimit = 20, clientId}) => {
   const [posts, setPosts] = useState<Post[]>([])
   const [selectedPosts, setSelectedPosts] = useState<Post[]>([])
   const [searchQuery, setSearchQuery] = useState("")
@@ -221,13 +220,13 @@ const SelectPostsControl: React.FC<SelectPostsControlProps> = ({selectedItems, o
           {mergedPosts.map((post) => (
             <label
               className="select-posts-control__checkbox-label p-3 cursor-pointer"
-              htmlFor={`select-posts-control-${instanceId}-post-${post.id}`}
+              htmlFor={`select-posts-control-${clientId}-post-${post.id}`}
               key={post.id}
             >
               <CheckboxControl
                 className="select-posts-control__checkbox"
                 key={post.id}
-                id={`select-posts-control-${instanceId}-post-${post.id}`}
+                id={`select-posts-control-${clientId}-post-${post.id}`}
                 label={post.title.rendered}
                 checked={selectedIds.has(post.id)}
                 onChange={(checked) => handleCheckboxChange(post, checked)}
